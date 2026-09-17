@@ -1,0 +1,18 @@
+<Project>
+    <PropertyGroup>
+        <!--
+          游戏是 net9.0，模组也必须一致。
+          本机系统 dotnet 是 SDK 10.0.401，已实测可直接编译 net9.0（带 net9.0 targeting pack），
+          所以**不需要**像老机器那样另装一份 SDK 9。若换到只装了旧 SDK 的机器，
+          把 LocalDotnetRoot 指到那份 SDK 目录即可。
+        -->
+        <LocalDotnetRoot Condition="'$(LocalDotnetRoot)' == ''">$(USERPROFILE)\.dotnet</LocalDotnetRoot>
+        <NetCoreTargetingPackRoot Condition="'$(NetCoreTargetingPackRoot)' == ''">$(LocalDotnetRoot)\packs</NetCoreTargetingPackRoot>
+
+        <!-- Godot 4.5.1 mono 可执行文件，仅 dotnet publish 导出 .pck 时需要。在 local.props 里设置。 -->
+        <GodotPath Condition="'$(GodotPath)' == ''"></GodotPath>
+    </PropertyGroup>
+
+    <!-- 本机路径覆盖。从 local.props.template 复制一份 local.props 再改。 -->
+    <Import Project="local.props" Condition="Exists('local.props')" />
+</Project>

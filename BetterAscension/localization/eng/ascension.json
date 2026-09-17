@@ -1,0 +1,22 @@
+{
+  "LEVEL_11.title": "Empowered Elites",
+  "LEVEL_11.description": "[gold]Elite[/gold] enemies start combat with [blue]1[/blue] [gold]Strength[/gold].",
+  "LEVEL_12.title": "Attrition",
+  "LEVEL_12.description": "When you enter a new Act, lose [blue]6[/blue] Max HP.",
+  "LEVEL_13.title": "Wealth?",
+  "LEVEL_13.description": "Buying a card from the merchant also costs a [blue]15[/blue] [gold]Gold[/gold] tip.",
+  "LEVEL_14.title": "Clenched Teeth",
+  "LEVEL_14.description": "Your hand size is reduced by [blue]1[/blue].",
+  "LEVEL_15.title": "Ascender's Bane+",
+  "LEVEL_15.description": "[red]Ascender's Bane[/red] loses [gold]Ethereal[/gold].",
+  "LEVEL_16.title": "Inflation+",
+  "LEVEL_16.description": "Cards sold by the merchant cost [blue]20%[/blue] more.",
+  "LEVEL_17.title": "Rarity",
+  "LEVEL_17.description": "[gold]Potion[/gold] drop chance is reduced.",
+  "LEVEL_18.title": "Frail Body",
+  "LEVEL_18.description": "Start each combat with [blue]1[/blue] [gold]Frail[/gold].",
+  "LEVEL_19.title": "Powerless Strike",
+  "LEVEL_19.description": "Start each combat with [blue]1[/blue] [gold]Weak[/gold].",
+  "LEVEL_20.title": "Final Test",
+  "LEVEL_20.description": "When you enter a [red]Boss[/red] combat, a random [red]Curse[/red] is added to your deck."
+}

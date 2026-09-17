@@ -1,0 +1,13 @@
+<Project>
+    <!-- 复制为 local.props 后按本机情况修改。local.props 已被 .gitignore 忽略。 -->
+    <PropertyGroup>
+        <!-- 杀戮尖塔 2 安装目录（留空则用 Sts2PathDiscovery.props 自动探测） -->
+        <Sts2Path></Sts2Path>
+
+        <!-- Godot 4.5.1 mono 可执行文件，仅 dotnet publish 导出 .pck 时需要 -->
+        <GodotPath></GodotPath>
+
+        <!-- 只有当系统 dotnet SDK 无法编译 net9.0 时，才在这里指向另一份 SDK -->
+        <!-- <LocalDotnetRoot>$(USERPROFILE)\.dotnet</LocalDotnetRoot> -->
+    </PropertyGroup>
+</Project>

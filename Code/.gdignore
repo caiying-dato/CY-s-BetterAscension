@@ -1,0 +1,2 @@
+# 让 Godot 不去扫描这个目录。
+# 里面的 .cs 是主工程编译的源码，Godot 只需要打包 BetterAscension/ 下的资源。

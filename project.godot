@@ -1,0 +1,15 @@
+; Engine configuration file.
+; Generated for the CY's BetterAscension Slay the Spire 2 mod.
+; The exported .pck becomes `BetterAscension.pck` next to the mod dll and carries
+; localization at res://BetterAscension/localization/<lang>/<table>.json
+
+config_version=5
+
+[application]
+
+config/name="BetterAscension"
+config/features=PackedStringArray("4.5")
+
+[rendering]
+
+renderer/rendering_method="mobile"

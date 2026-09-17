@@ -1,0 +1,124 @@
+<Project Sdk="Godot.NET.Sdk/4.5.1" InitialTargets="CheckDependencyPaths">
+    <Import Project=".\Sts2PathDiscovery.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>true</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <DefaultItemExcludes>$(DefaultItemExcludes);packages/**</DefaultItemExcludes>
+        <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
+        <PathMap>$(AppOutputBase)=.\</PathMap>
+        <GodotDisabledSourceGenerators>GodotPluginsInitializer</GodotDisabledSourceGenerators>
+        <LangVersion>default</LangVersion>
+
+        <!-- 版本号：与 BetterAscension.json 的 version 保持一致（ModLog.Version 读的就是它） -->
+        <Version>0.1.0</Version>
+        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <FileVersion>0.1.0.0</FileVersion>
+        <Authors>CaiYing</Authors>
+        <Product>CY's BetterAscension</Product>
+
+        <!--
+          ★ 资源目录名是"承重"的，不能随便起。
+          游戏通过 ModManager.GetModdedLocTables 找模组文本，路径是写死的字符串拼接（IL 实录）：
+              "res://" + <模组清单里的 id> + "/localization/" + <语言> + "/" + <表名>.json
+          所以这个目录名必须等于模组 id（BetterAscension），否则界面会直接显示 LEVEL_11.title 原文。
+          历史教训见 docs\A11复盘\03-必须避开的坑.md 坑 6。
+        -->
+        <ResourcesDir>BetterAscension</ResourcesDir>
+        <PckPackerSourceDir>$(ResourcesDir)/</PckPackerSourceDir>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- 模组按 MSIL 构建以兼容所有平台，而本机游戏是平台特定的，故忽略架构不匹配警告 -->
+        <NoWarn>$(NoWarn);MSB3270</NoWarn>
+    </PropertyGroup>
+
+    <!-- 游戏程序集。0Harmony 随游戏分发，不需要 NuGet 引用。 -->
+    <ItemGroup Condition="Exists('$(Sts2DataDir)')">
+        <Reference Include="0Harmony">
+            <HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="sts2">
+            <HintPath>$(Sts2DataDir)/sts2.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <!--
+      版本一律写死，不用 "*"：避免某天上游发新版把我们的构建悄悄改掉。
+      这些包已随工程放在 packages\ 下，可在离线环境还原。
+    -->
+    <ItemGroup>
+        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.4.7" PrivateAssets="All" />
+        <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="0.1.9" />
+
+        <!-- 把 sts2.dll 的 private/protected 成员公开化，使补丁能访问内部字段（如 AscensionManager._level） -->
+        <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All" />
+
+        <!-- 让本地化分析器能理解我们的 loc key -->
+        <AdditionalFiles Include="$(ResourcesDir)/localization/**/*.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false" />
+    </ItemGroup>
+
+    <!-- 非代码资源不进编译器输入；tools 与 packages 也不参与主工程编译 -->
+    <ItemGroup>
+        <Compile Remove="$(ResourcesDir)/**" />
+        <Compile Remove="tools/**" />
+        <Compile Remove="packages/**" />
+        <!-- 发布暂存目录（若建在工程内）也不能被编译 —— 它含一份源码副本 -->
+        <Compile Remove="upload-staging/**" />
+        <Compile Remove="release/**" />
+        <EmbeddedResource Remove="$(ResourcesDir)/**" />
+        <EmbeddedResource Remove="tools/**" />
+        <EmbeddedResource Remove="packages/**" />
+        <EmbeddedResource Remove="upload-staging/**" />
+        <EmbeddedResource Remove="release/**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Condition="Exists('Directory.Build.props')" Include="Directory.Build.props" />
+        <None Include=".gitignore" />
+        <None Include="$(MSBuildProjectName).json" />
+        <None Include="project.godot" />
+        <None Include="export_presets.cfg" />
+        <None Include="$(ResourcesDir)/**" />
+    </ItemGroup>
+
+    <Target Name="CheckDependencyPaths">
+        <Error Text="找不到杀戮尖塔 2 的数据目录 '$(Sts2DataDir)'。请安装游戏，或在 local.props 里显式设置 &lt;Sts2Path&gt;。"
+               Condition="'$(Sts2DataDir)' == '' or !Exists('$(Sts2DataDir)')" />
+    </Target>
+
+    <!-- 构建产物直接进 mods/BetterAscension/ -->
+    <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
+        <Message Text="复制 BetterAscension.dll/.json/.pdb 到 '$(ModsPath)$(MSBuildProjectName)/'" Importance="high" />
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
+        <Copy SourceFiles="$(AssemblyName).json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
+        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('$(TargetDir)$(TargetName).pdb')" />
+    </Target>
+
+    <!--
+      dotnet publish 才会导出 .pck（承载本地化文本），需要 Godot/MegaDot。
+      只改 .cs 时用 dotnet build 即可。
+    -->
+    <Target Name="NeedGodotForPublish" BeforeTargets="Publish">
+        <Error Text="发布前必须设置 GodotPath；未在 '$(GodotPath)' 找到 Godot。请在 local.props 里设置 &lt;GodotPath&gt;。"
+               Condition="'$(GodotPath)' == '' or !Exists('$(GodotPath)')" />
+    </Target>
+
+    <Target Name="GodotPublish" AfterTargets="Publish" Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'">
+        <Message Text="导出 Godot .pck 到 mods 目录" Importance="high" />
+        <!-- Godot 首次导出要导入资源并编译脚本，耗时可能超过 MSBuild 默认的 60000ms 超时 -->
+        <Exec Command="&quot;$(GodotPath)&quot; --headless --export-pack &quot;BasicExport&quot; &quot;$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;"
+              EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1"
+              Timeout="900000"
+              ContinueOnError="WarnAndContinue" />
+        <Message Text="发布完成：$(ModsPath)$(MSBuildProjectName)/" Importance="high" />
+    </Target>
+</Project>

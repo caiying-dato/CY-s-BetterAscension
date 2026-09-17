@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- 需要真正调用 Harmony 的补丁安装逻辑，所以引用 HarmonyLib 与游戏程序集 -->
+    <TargetFramework>net10.0</TargetFramework>
+    <RollForward>LatestMajor</RollForward>
+    <AllowMissingPrunePackageData>true</AllowMissingPrunePackageData>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <AssemblyName>PatchCheck</AssemblyName>
+    <RootNamespace>PatchCheck</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <!-- 游戏程序集是 net9.0，版本号与 net10 不匹配很正常 -->
+    <NoWarn>$(NoWarn);CS8632;MSB3270</NoWarn>
+    <Sts2Path Condition="'$(Sts2Path)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2</Sts2Path>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Source/**/*.cs" />
+  </ItemGroup>
+
+  <!-- 编译期只需要 HarmonyLib 与 sts2 的类型；运行时由 Program 自己按路径加载 -->
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>$(Sts2Path)\data_sts2_windows_x86_64\0Harmony.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

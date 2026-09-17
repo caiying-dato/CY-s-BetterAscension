@@ -1,0 +1,12 @@
+{
+  "id": "BetterAscension",
+  "name": "CY's BetterAscension",
+  "author": "CaiYing",
+  "description": "为杀戮尖塔 2 扩展进阶难度：新增进阶 11~20。需要前置模组 BaseLib。",
+  "version": "v0.1.0",
+  "has_pck": true,
+  "has_dll": true,
+  "min_game_version": "0.111.0",
+  "dependencies": [{ "id": "BaseLib", "min_version": "3.4.7" }],
+  "affects_gameplay": true
+}

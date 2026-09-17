@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- 本工具只做反射 + 元数据读取，不引用任何游戏程序集，
+         所以用本机 SDK 10 构建 / 运行即可；被读取的 sts2.dll 是 net9.0 也不影响。 -->
+    <TargetFramework>net10.0</TargetFramework>
+    <RollForward>LatestMajor</RollForward>
+    <!-- 本机 SDK 10.0.401 缺少 net10.0 的 prune 包数据时会报 NETSDK1226，与本工具无关，忽略即可 -->
+    <AllowMissingPrunePackageData>true</AllowMissingPrunePackageData>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <AssemblyName>TranspilerCheck</AssemblyName>
+    <RootNamespace>TranspilerCheck</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>$(NoWarn);CS8632</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Source/**/*.cs" />
+  </ItemGroup>
+</Project>

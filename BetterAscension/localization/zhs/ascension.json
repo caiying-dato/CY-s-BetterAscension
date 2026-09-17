@@ -1,0 +1,22 @@
+{
+  "LEVEL_11.title": "精英强敌",
+  "LEVEL_11.description": "[gold]精英[/gold]敌人在战斗开始时获得[blue]1[/blue]点[gold]力量[/gold]。",
+  "LEVEL_12.title": "水土不服",
+  "LEVEL_12.description": "每进入新的阶段时，最大生命值减少[blue]6[/blue]点。",
+  "LEVEL_13.title": "？富有？",
+  "LEVEL_13.description": "在商人处购买卡牌后，额外扣除[blue]15[/blue]枚[gold]金币[/gold]的小费。",
+  "LEVEL_14.title": "咬紧牙关",
+  "LEVEL_14.description": "手牌上限减少[blue]1[/blue]。",
+  "LEVEL_15.title": "进阶之灾+",
+  "LEVEL_15.description": "[red]进阶之灾[/red]失去[gold]虚无[/gold]。",
+  "LEVEL_16.title": "通货膨胀+",
+  "LEVEL_16.description": "商店售卖的卡牌价格提升[blue]20%[/blue]。",
+  "LEVEL_17.title": "珍稀",
+  "LEVEL_17.description": "[gold]药水[/gold]的掉落概率降低。",
+  "LEVEL_18.title": "柔弱身躯",
+  "LEVEL_18.description": "进入战斗时获得[blue]1[/blue]层[gold]脆弱[/gold]。",
+  "LEVEL_19.title": "无力攻击",
+  "LEVEL_19.description": "进入战斗时获得[blue]1[/blue]层[gold]虚弱[/gold]。",
+  "LEVEL_20.title": "最终考验",
+  "LEVEL_20.description": "进入[red]首领[/red]战时，随机将一张[red]诅咒[/red]加入你的卡组。"
+}
