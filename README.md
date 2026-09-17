@@ -76,21 +76,23 @@
 
 > 本模组暂未上传创意工坊。
 
-前置 [**BaseLib**](https://steamcommunity.com/sharedfiles/filedetails/?id=3737335127)
-可以从创意工坊订阅（好处是作者更新后自动升级）；
-订阅了它就用**不带 BaseLib** 的那个发布包。
+前置 [**BaseLib**](https://github.com/Alchyr/BaseLib-StS2)
+如果已经从创意工坊订阅（好处是作者更新后自动升级），就用**不带 BaseLib** 的那个发布包。
 
 ---
 
 ## 前置模组
 
-必需：[**BaseLib**](https://steamcommunity.com/sharedfiles/filedetails/?id=3737335127) `>= 3.4.7`（作者 Alchyr）
+必需：[**BaseLib**](https://github.com/Alchyr/BaseLib-StS2) `>= 3.4.7`（作者 Alchyr）
 
 本模组只用到 BaseLib 的 **`[CustomEnum]`** 一个特性 —— 用来往游戏的
 `AscensionLevel` 枚举里新增成员。除此之外的本地化、能力施加、IL 修改、补丁
 全部走游戏原生 API 与 Harmony，没有依赖 BaseLib 的其它功能。
 
-**获取方式**：从创意工坊订阅，或使用发布包里的 `+BaseLib` 版本（已附带，开箱即用）。
+**获取方式**：
+
+- 使用发布包里的 `+BaseLib` 版本 —— **已附带，开箱即用**（推荐）
+- 或自行获取 BaseLib（[GitHub 源码](https://github.com/Alchyr/BaseLib-StS2) / Steam 创意工坊搜索 `BaseLib`）
 
 ---
 
@@ -219,10 +221,10 @@ dotnet build .\BetterAscension.csproj -c Debug
 
 | 文档 | 内容 |
 |:---|:---|
-| [落点研究](docs/落点研究-A11~A20.md) | 每条进阶在游戏内部的挂载点，含真实 `sts2.dll` 的实测证据 |
-| [实测记录](docs/实测记录-Harmony补丁静默缺失.md) | Harmony 补丁的 6 类**静默失败**：现象 → 日志证据 → 根因 → 正解 |
+| [落点研究](docs/落点研究-A11~A20.md) | 每条进阶在游戏内部的**挂载点**，含真实 `sts2.dll` 的实测证据与「为什么是这一处」 |
+| [开发踩坑记录](docs/开发踩坑记录.md) | **6 类静默失败**：现象 → 日志证据 → 根因 → 正解 → 通用教训 |
 | [本机环境备忘](docs/本机环境备忘.md) | 工具链搭建中踩到的坑（Mono 版 Godot、PowerShell 编码等） |
-| [A11 复盘](docs/A11复盘/) | 本项目前身（单条进阶 11）的完整复盘 |
+| [实测清单](docs/实测清单-A11~A20.md) | 每条进阶**怎么验证**：触发方式、期望日志、失败信号 |
 
 <details>
 <summary><b>四条最值得记住的结论</b></summary>
